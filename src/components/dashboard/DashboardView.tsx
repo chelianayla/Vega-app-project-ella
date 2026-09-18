@@ -8,11 +8,9 @@ import {
   Filter, 
   RotateCcw, 
   BarChart3, 
-  ChevronRight, 
   Layers, 
   DollarSign, 
   PieChart, 
-  Building2,
   HelpCircle,
   ArrowUpRight,
   ArrowDownRight,
@@ -50,7 +48,6 @@ export const DashboardView: React.FC = () => {
   const { t } = useAuth();
   const [absorptionTab, setAbsorptionTab] = useState<'lowest' | 'highest'>('lowest');
   const [showSignificance, setShowSignificance] = useState(false);
-  const [activeChartMetric, setActiveChartMetric] = useState<'both' | 'variance'>('both');
 
   // Compute 12-month grouped budget vs actual data for the diagram batang
   const monthlyBarData = useMemo(() => {
@@ -102,20 +99,15 @@ export const DashboardView: React.FC = () => {
   const currentStatusBadge = getStatusBadge(kpiSummary.status);
   const StatusIcon = currentStatusBadge.icon;
 
-  // Maximum value for category chart scaling
-  const maxCategoryAmount = Math.max(
-    ...categorySummaries.map((c) => Math.max(c.budget, c.actual)),
-    1_000_000_000
-  );
 
   const isEmpty = allAccountSummaries.length === 0 || (kpiSummary.totalBudget === 0 && kpiSummary.totalActual === 0);
 
   return (
-    <div className="space-y-6 pb-12">
+    <div className="w-full max-w-full min-w-0 overflow-x-hidden space-y-5 pb-12">
       {/* 1. Fiscal Year & Latest Month Banner */}
       <div 
         id="dashboard-banner"
-        className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4"
+        className="w-full min-w-0 overflow-hidden bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4"
       >
         <div className="flex items-center gap-3.5">
           <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-[#1E5EFF] shrink-0">
@@ -140,7 +132,7 @@ export const DashboardView: React.FC = () => {
         </div>
 
         {/* Status Kesehatan Anggaran - Banner Overview with Adjusted Status Percentages */}
-        <div id="banner-health-status" className="flex flex-col sm:items-end gap-1.5 self-start md:self-auto">
+        <div id="banner-health-status" className="min-w-0 flex flex-col sm:items-end gap-1.5 self-start md:self-auto">
           <div className="flex items-center gap-2">
             <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider hidden sm:inline">
               {t.kpiStatus}:
@@ -153,7 +145,7 @@ export const DashboardView: React.FC = () => {
           </div>
 
           {/* SPV Mandate: Absorption Indicator Adjusted to Over, On, and Under Budget Percentages */}
-          <div className="flex items-center gap-1.5 flex-wrap text-[11px]">
+          <div className="flex min-w-0 items-center gap-1.5 flex-wrap text-[11px]">
             <span 
               className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-rose-50 text-rose-700 border border-rose-200 font-semibold" 
               title={`Over Budget: ${t.healthOverBudgetRule}`}
@@ -182,7 +174,7 @@ export const DashboardView: React.FC = () => {
       {/* 2. Analytical Filters */}
       <div 
         id="dashboard-filters-card"
-        className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-xs space-y-3"
+        className="w-full min-w-0 overflow-hidden bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-xs space-y-3"
       >
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div className="flex items-center gap-2 text-xs font-bold text-slate-700 uppercase tracking-wider">
@@ -206,7 +198,7 @@ export const DashboardView: React.FC = () => {
           )}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="grid min-w-0 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {/* Fiscal Year Filter */}
           <div>
             <label className="block text-[11px] font-bold text-slate-500 mb-1">
@@ -280,7 +272,7 @@ export const DashboardView: React.FC = () => {
 
       {/* Empty State if filters exclude all data */}
       {isEmpty ? (
-        <div className="bg-white rounded-3xl p-12 text-center border border-slate-200 shadow-xs">
+        <div className="w-full min-w-0 bg-white rounded-3xl p-12 text-center border border-slate-200 shadow-xs">
           <div className="w-16 h-16 rounded-3xl bg-slate-100 flex items-center justify-center text-slate-400 mx-auto mb-4">
             <Layers className="w-8 h-8" />
           </div>
@@ -302,7 +294,7 @@ export const DashboardView: React.FC = () => {
           {/* 3. Status Kesehatan Anggaran (SPV Indicator Section) */}
           <div 
             id="status-kesehatan-anggaran-card"
-            className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs space-y-4"
+            className="w-full min-w-0 overflow-hidden bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs space-y-4"
           >
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-100 pb-3">
               <div>
@@ -335,13 +327,13 @@ export const DashboardView: React.FC = () => {
             </div>
 
             {/* 3 Status Cards: Over Budget, On Budget, Under Budget */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid min-w-0 grid-cols-1 md:grid-cols-3 gap-4">
               {/* Card 1: Over Budget */}
               <div 
                 id="health-card-over-budget"
                 className="bg-rose-50/50 border border-rose-200/80 rounded-xl p-4 flex flex-col justify-between hover:bg-rose-50/80 transition"
               >
-                <div className="flex items-center justify-between">
+                <div className="flex min-w-0 items-center justify-between gap-3">
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center font-bold">
                       <AlertTriangle className="w-4 h-4" />
@@ -378,7 +370,7 @@ export const DashboardView: React.FC = () => {
                 id="health-card-on-budget"
                 className="bg-emerald-50/50 border border-emerald-200/80 rounded-xl p-4 flex flex-col justify-between hover:bg-emerald-50/80 transition"
               >
-                <div className="flex items-center justify-between">
+                <div className="flex min-w-0 items-center justify-between gap-3">
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
                       <CheckCircle2 className="w-4 h-4" />
@@ -415,7 +407,7 @@ export const DashboardView: React.FC = () => {
                 id="health-card-under-budget"
                 className="bg-amber-50/50 border border-amber-200/80 rounded-xl p-4 flex flex-col justify-between hover:bg-amber-50/80 transition"
               >
-                <div className="flex items-center justify-between">
+                <div className="flex min-w-0 items-center justify-between gap-3">
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
                       <TrendingDown className="w-4 h-4" />
@@ -497,13 +489,13 @@ export const DashboardView: React.FC = () => {
           </div>
 
           {/* 4. KPI Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid min-w-0 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Card 1: Total Budget */}
             <div 
               id="kpi-budget-card"
-              className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex flex-col justify-between"
+              className="min-w-0 overflow-hidden bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex flex-col justify-between"
             >
-              <div className="flex items-center justify-between">
+              <div className="flex min-w-0 items-center justify-between gap-3">
                 <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
                   {t.kpiTotalBudget}
                 </span>
@@ -530,9 +522,9 @@ export const DashboardView: React.FC = () => {
             {/* Card 2: Total Actual */}
             <div 
               id="kpi-actual-card"
-              className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex flex-col justify-between"
+              className="min-w-0 overflow-hidden bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex flex-col justify-between"
             >
-              <div className="flex items-center justify-between">
+              <div className="flex min-w-0 items-center justify-between gap-3">
                 <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
                   {t.kpiTotalActual}
                 </span>
@@ -565,9 +557,9 @@ export const DashboardView: React.FC = () => {
             {/* Card 3: Variance + % */}
             <div 
               id="kpi-variance-card"
-              className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex flex-col justify-between"
+              className="min-w-0 overflow-hidden bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex flex-col justify-between"
             >
-              <div className="flex items-center justify-between">
+              <div className="flex min-w-0 items-center justify-between gap-3">
                 <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
                   {t.kpiVariance} (Act - Bud)
                 </span>
@@ -605,9 +597,9 @@ export const DashboardView: React.FC = () => {
             {/* Card 4: Year-End Projection */}
             <div 
               id="kpi-projection-card"
-              className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex flex-col justify-between"
+              className="min-w-0 overflow-hidden bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex flex-col justify-between"
             >
-              <div className="flex items-center justify-between">
+              <div className="flex min-w-0 items-center justify-between gap-3">
                 <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
                   {t.kpiYearEndProjection}
                 </span>
@@ -635,15 +627,17 @@ export const DashboardView: React.FC = () => {
           </div>
 
           {/* 4. Grouped Budget vs Actual Diagram Batang Chart */}
-          <GroupedBarChart 
-            categorySummaries={categorySummaries} 
-            monthlyData={monthlyBarData} 
-          />
+          <div className="w-full min-w-0 overflow-hidden">
+            <GroupedBarChart 
+              categorySummaries={categorySummaries} 
+              monthlyData={monthlyBarData} 
+            />
+          </div>
 
           {/* 5. Split Section: Worst COA & Budget Absorption with Prior Year YoY Comparison */}
           <div className="space-y-4">
             {/* Executive Significance Callout answering user query */}
-            <div className="bg-slate-50 border border-slate-200/90 rounded-2xl p-4 text-xs text-slate-700">
+            <div className="w-full min-w-0 overflow-hidden bg-slate-50 border border-slate-200/90 rounded-2xl p-4 text-xs text-slate-700">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-start gap-3">
                   <div className="p-2 rounded-xl bg-blue-100 text-blue-700 shrink-0 mt-0.5">
@@ -706,11 +700,11 @@ export const DashboardView: React.FC = () => {
             </div>
 
             {/* Split Tables */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid min-w-0 grid-cols-1 lg:grid-cols-2 gap-5 xl:gap-6 items-stretch">
               {/* Worst COA Table with YoY Comparison */}
               <div 
                 id="worst-coa-card"
-                className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex flex-col"
+                className="min-w-0 overflow-hidden bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex flex-col"
               >
                 <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
                   <div>
@@ -732,8 +726,8 @@ export const DashboardView: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="overflow-x-auto flex-1">
-                  <table className="w-full text-left text-xs">
+                <div className="min-w-0 w-full overflow-x-auto overscroll-x-contain flex-1 pb-1">
+                  <table className="w-full min-w-[760px] text-left text-xs table-auto">
                     <thead>
                       <tr className="border-b border-slate-200/60 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
                         <th className="pb-2.5 font-bold">{t.tableCode}</th>
@@ -765,7 +759,7 @@ export const DashboardView: React.FC = () => {
                               <td className="py-2.5 font-mono font-bold text-slate-800">
                                 {item.coaCode}
                               </td>
-                              <td className="py-2.5 max-w-[150px]">
+                              <td className="py-2.5 w-[220px] max-w-[220px]">
                                 <div className="font-semibold text-slate-900 truncate">
                                   {item.accountName}
                                 </div>
@@ -814,7 +808,7 @@ export const DashboardView: React.FC = () => {
               {/* Budget Absorption Table with Switcher: Lowest vs Highest & YoY */}
               <div 
                 id="lowest-absorption-card"
-                className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex flex-col"
+                className="min-w-0 overflow-hidden bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex flex-col"
               >
                 <div className="flex flex-wrap items-center justify-between border-b border-slate-100 pb-3 mb-4 gap-2">
                   <div>
@@ -860,8 +854,8 @@ export const DashboardView: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="overflow-x-auto flex-1">
-                  <table className="w-full text-left text-xs">
+                <div className="min-w-0 w-full overflow-x-auto overscroll-x-contain flex-1 pb-1">
+                  <table className="w-full min-w-[760px] text-left text-xs table-auto">
                     <thead>
                       <tr className="border-b border-slate-200/60 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
                         <th className="pb-2.5 font-bold">{t.tableCode}</th>
@@ -887,7 +881,7 @@ export const DashboardView: React.FC = () => {
                             <td className="py-2.5 font-mono font-bold text-slate-800">
                               {item.coaCode}
                             </td>
-                            <td className="py-2.5 max-w-[150px]">
+                            <td className="py-2.5 w-[220px] max-w-[220px]">
                               <div className="font-semibold text-slate-900 truncate">
                                 {item.accountName}
                               </div>

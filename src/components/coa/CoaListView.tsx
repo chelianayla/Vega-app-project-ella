@@ -258,7 +258,7 @@ export const CoaListView: React.FC = () => {
               className="w-full text-xs font-bold py-2 px-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-[#1E5EFF]"
             >
               <option value="All">{t.filterAll}</option>
-              {(['MIS Department', 'IT Operations', 'Enterprise Systems', 'Cybersecurity & Infrastructure'] as ITDepartment[]).map((dept) => (
+              {(['MIS Department'] as ITDepartment[]).map((dept) => (
                 <option key={dept} value={dept}>{dept}</option>
               ))}
             </select>
